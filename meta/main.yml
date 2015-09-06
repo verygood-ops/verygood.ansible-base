@@ -1,0 +1,2 @@
+dependencies:
+  - git+git@github.com:verygood-ops/ansible-apt-transport-s3.git,,apt-transport-s3

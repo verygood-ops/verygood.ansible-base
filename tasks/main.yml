@@ -1,0 +1,21 @@
+---
+# TODO: this should be the *first* thing that runs because we should know
+#       if we're on AWS or not. Though, isn't this determined by the hosts?
+- include: aws.yml
+  tags: aws
+
+- include: util.yml
+  tags: util
+
+- include: apt.yml
+  sudo: yes
+  tags: apt
+
+- include: py.yml
+  tags: py
+
+- include: dns.yml
+  tags: dns
+
+- include: swap.yml
+  tags: swap

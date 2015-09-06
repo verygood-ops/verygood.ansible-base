@@ -1,0 +1,21 @@
+---
+limits:
+  - { domain: "*", type: soft, item: nofile, value: 30000 }
+  - { domain: "*", type: hard, item: nofile, value: 30000 }
+
+domain: internalpypi.io
+
+pypi_scheme: https
+pypi_username:
+pypi_password:
+pypi_host: pypi.internalpypi.io
+pypi_index: /internalpypi/prod/+simple/
+
+apt_ppas: []
+apt_repos: []
+
+swap_file: /swap
+swap_size: 1GB
+
+# dns
+root_dns_zone: internalpypi.io

@@ -1,0 +1,32 @@
+---
+
+- name: add self to hosts
+  lineinfile:
+    dest: /etc/hosts
+    line: "127.0.0.1 {{ ansible_hostname }}.{{ domain }} {{ ansible_hostname }}"
+    insertafter: '127.0.0.1 localhost'
+
+- name: add domain search to resolv
+  lineinfile: >
+    dest=/etc/resolvconf/resolv.conf.d/head
+    line="search {{ domain }}"
+    state=present
+  register: resolv_domain_search
+
+- hostname: name={{ ansible_hostname }}.{{ domain }}
+
+- name: update resolv
+  command: resolvconf -u
+  when: resolv_domain_search.changed
+
+- route53: >
+    command=create
+    zone={{ root_dns_zone }}
+    record={{ ansible_hostname }}.{{ domain }}
+    type=A
+    ttl=60
+    value={{ ansible_eth0.ipv4.address }}
+    overwrite=true
+    retry_interval=10
+  tags: aws
+  when: ansible_ec2_instance_id is defined
